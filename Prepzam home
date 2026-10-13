@@ -2,228 +2,1128 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Prepzam – Academic Portal</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Prepzam — Smart Exam Preparation</title>
+<meta name="description" content="Study smarter with Prepzam. Explore class notes, revision questions, past examination papers and AI-assisted solutions — all in one Android app.">
+<meta name="theme-color" content="#0B4F91">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=no">
+
+<!-- TODO: replace prepzam.example with your real domain before going live -->
+<link rel="canonical" href="https://prepzam.example/">
+
+<!-- Social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prepzam">
+<meta property="og:title" content="Prepzam — Smart Exam Preparation">
+<meta property="og:description" content="Class notes, revision questions, past papers and AI-assisted solutions in one Android app.">
+<meta property="og:url" content="https://prepzam.example/">
+<!-- TODO: add a 1200×630 preview image -->
+<meta property="og:image" content="https://prepzam.example/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prepzam — Smart Exam Preparation">
+<meta name="twitter:description" content="Class notes, revision questions, past papers and AI-assisted solutions in one Android app.">
+<meta name="twitter:image" content="https://prepzam.example/og-image.png">
+
+<!-- Inline SVG favicon: zero extra requests -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B4F91'/%3E%3Ctext x='50' y='73' font-family='system-ui,sans-serif' font-size='64' font-weight='900' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+
+<!-- Set before paint so reveal-on-scroll never hides content when JS is off -->
+<script>document.documentElement.classList.add('js');</script>
+
 <style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
 :root{
-  --primary:#0A4D8C; --primary-light:#EEF4FC; --bg:#F8FAFC; --card-bg:#FFFFFF;
-  --text-main:#0F172A; --text-muted:#64748B; --border:#E2E8F0;
-  --radius-lg:20px; --radius-md:14px; --radius-sm:10px;
-  --shadow-sm:0 1px 3px rgba(15,23,42,.05);
+  --blue:#0B4F91;
+  --blue-dark:#073766;
+  --blue-light:#EAF3FF;
+  --accent:#1684D4;
+  --text:#15243A;
+  --muted:#68778D;
+  --bg:#F6F8FC;
+  --white:#FFFFFF;
+  --border:#E2E9F2;
+  --green:#14865C;
+  --radius:18px;
+  --shadow:0 8px 28px rgba(18,48,85,.07);
+  --shadow-lg:0 15px 40px rgba(11,79,145,.17);
+  --ring:#7CC4FF;
+  --ease:cubic-bezier(.2,.7,.3,1);
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:88px;
+  -webkit-text-size-adjust:100%;
+}
+
 body{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:var(--bg);color:var(--text-main);min-height:100vh;overflow-x:hidden;padding-bottom:40px;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
 }
-.app-header-wrapper{position:sticky;top:0;z-index:1000;background:rgba(248,250,252,.94);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,232,240,.8);}
-.app-header{max-width:560px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
-.brand-name{font-size:1.35rem;font-weight:800;color:var(--primary);letter-spacing:-0.5px;}
-.header-badge{background:var(--primary-light);color:var(--primary);font-size:.75rem;font-weight:700;padding:6px 12px;border-radius:20px;}
-.main-container{max-width:560px;margin:0 auto;padding:20px 16px;}
 
-.redirect-notice{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:18px 16px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow-sm);}
-.redirect-notice .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--primary);
-  border-radius:50%;margin:0 auto 12px;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.redirect-notice p{font-size:.9rem;color:var(--text-muted);margin-bottom:4px;}
-.redirect-notice strong{color:var(--text-main);font-size:.95rem;}
-#fallbackCta{margin-top:14px;}
+a,button{-webkit-tap-highlight-color:transparent}
 
-.hero-card{background:linear-gradient(135deg,#0A4D8C,#0284C7);border-radius:var(--radius-lg);
-  padding:28px 24px;color:#fff;text-align:center;margin-bottom:20px;box-shadow:0 8px 24px rgba(10,77,140,.22);}
-.hero-card h1{font-size:1.5rem;font-weight:800;margin-bottom:8px;letter-spacing:-0.3px;}
-.hero-card p{font-size:.95rem;opacity:.92;margin-bottom:20px;line-height:1.5;}
-.download-btn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#0A4D8C;
-  padding:14px 26px;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;
-  box-shadow:0 4px 14px rgba(0,0,0,.12);border:0;cursor:pointer;font-family:inherit;}
-.download-btn:active{transform:scale(.97);}
+a:focus-visible,
+button:focus-visible{
+  outline:3px solid var(--ring);
+  outline-offset:3px;
+  border-radius:8px;
+}
 
-.section-label{font-size:.78rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;
-  letter-spacing:.6px;margin-bottom:12px;padding:0 4px;}
-.feature-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
-.feature-item{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:16px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm);}
-.feature-icon{width:44px;height:44px;border-radius:var(--radius-sm);background:var(--primary-light);
-  color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.1rem;
-  flex-shrink:0;border:1px solid var(--border);}
-.feature-text strong{display:block;font-size:1rem;font-weight:700;color:var(--text-main);margin-bottom:2px;}
-.feature-text span{font-size:.82rem;color:var(--text-muted);font-weight:500;}
+::selection{background:var(--blue);color:#fff}
 
-.exams-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
-.exam-chip{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:14px 12px;text-align:center;box-shadow:var(--shadow-sm);}
-.exam-chip strong{display:block;font-size:.95rem;color:var(--primary);font-weight:700;margin-bottom:2px;}
-.exam-chip span{font-size:.75rem;color:var(--text-muted);}
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
 
-.secondary-cta{text-align:center;margin-top:8px;}
-.secondary-cta a{color:var(--primary);font-weight:600;font-size:.9rem;text-decoration:none;}
-.secondary-cta a:hover{text-decoration:underline;}
+.icon{
+  display:block;
+  width:1em;
+  height:1em;
+  flex:none;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.icon--brand{fill:currentColor;stroke:none}
 
-.app-footer{max-width:560px;margin:28px auto 0;padding:16px;text-align:center;
-  font-size:.78rem;color:var(--text-muted);}
-.app-footer a{color:var(--primary);text-decoration:none;}
+.sr-only{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  clip-path:inset(50%);
+  white-space:nowrap;
+  border:0;
+}
+
+.skip-link{
+  position:absolute;
+  top:-100px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:200;
+  padding:11px 22px;
+  border-radius:0 0 12px 12px;
+  background:var(--blue);
+  color:#fff;
+  font-size:.85rem;
+  font-weight:800;
+  text-decoration:none;
+  transition:top .2s var(--ease);
+}
+.skip-link:focus{top:0}
+
+.container{
+  width:min(1080px,calc(100% - 36px));
+  margin-inline:auto;
+}
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+.js .reveal{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .6s var(--ease), transform .6s var(--ease);
+  will-change:opacity, transform;
+}
+.js .reveal.is-visible{
+  opacity:1;
+  transform:none;
+  will-change:auto;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.header-inner{
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+
+.brand-icon{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  font-size:23px;
+  font-weight:900;
+  line-height:1;
+  box-shadow:0 4px 12px rgba(11,79,145,.2);
+}
+
+.brand-name{
+  color:var(--blue);
+  font-size:1.22rem;
+  font-weight:900;
+  letter-spacing:-.6px;
+}
+
+.header-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 12px;
+  border-radius:30px;
+  background:var(--blue-light);
+  color:var(--blue);
+  font-size:.74rem;
+  font-weight:750;
+  white-space:nowrap;
+}
+.header-label .icon{font-size:.85rem}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  margin-top:22px;
+  padding:48px 24px 40px;
+  border-radius:25px;
+  color:#fff;
+  text-align:center;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255,255,255,.14), transparent 28%),
+    radial-gradient(circle at 5% 100%, rgba(255,255,255,.10), transparent 28%),
+    linear-gradient(135deg,#073766,#0B579E 60%,#1684D4);
+  box-shadow:var(--shadow-lg);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:700px;
+  margin-inline:auto;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 14px;
+  margin-bottom:20px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:30px;
+  background:rgba(255,255,255,.1);
+  font-size:.79rem;
+  font-weight:700;
+}
+.eyebrow .icon{font-size:.9rem;color:#8FE6C2}
+
+.hero h1{
+  margin-bottom:14px;
+  font-size:clamp(2rem,5.5vw,3.4rem);
+  line-height:1.12;
+  letter-spacing:-1.6px;
+  font-weight:900;
+  text-wrap:balance;
+}
+
+.hero-description{
+  max-width:570px;
+  margin:0 auto 22px;
+  color:rgba(255,255,255,.9);
+  font-size:1rem;
+  text-wrap:pretty;
+}
+
+/* ---- Download hint (inside hero, no card, no dismiss) ---- */
+.download-action{
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  max-width:420px;
+  margin:24px auto 0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#fff;
+  box-shadow:none;
+  animation:actionAppear .35s var(--ease);
+}
+
+.action-message{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  color:rgba(255,255,255,.95);
+  font-size:.94rem;
+  font-weight:850;
+  line-height:1.4;
+}
+
+.action-message .icon{
+  color:#8FE6C2;
+  font-size:1.15rem;
+}
+
+.action-arrow{
+  margin-top:6px;
+  color:rgba(255,255,255,.9);
+  animation:pointDown .9s ease-in-out infinite;
+}
+.action-arrow .icon{font-size:1.7rem}
+
+@keyframes actionAppear{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pointDown{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(6px)}
+}
+
+/* ---- Primary download button ---- */
+.download-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  min-height:58px;
+  max-width:100%;
+  padding:16px 27px;
+  border:2px solid rgba(255,255,255,.65);
+  border-radius:13px;
+  background:#fff;
+  color:var(--blue-dark);
+  text-decoration:none;
+  font-size:1rem;
+  font-weight:900;
+  box-shadow:0 8px 22px rgba(0,0,0,.17);
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease), background .2s, color .2s;
+  cursor:pointer;
+}
+.download-button .icon{font-size:1.25rem}
+.download-button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(0,0,0,.22);
+}
+.download-button:active{transform:scale(.97)}
+
+.hero-note{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:14px;
+  color:rgba(255,255,255,.85);
+  font-size:.78rem;
+}
+.hero-note .icon{font-size:.85rem}
+
+/* ============================================================
+   QUICK BENEFITS
+   ============================================================ */
+.quick-benefits{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+  margin-top:22px;
+}
+
+.benefit{
+  padding:21px 12px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.benefit .icon{
+  font-size:1.4rem;
+  margin:0 auto 9px;
+  color:var(--accent);
+}
+.benefit h3{font-size:.9rem;font-weight:850}
+.benefit p{margin-top:4px;color:var(--muted);font-size:.77rem}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section{margin-top:56px}
+
+.section-heading{
+  margin-bottom:23px;
+  text-align:center;
+}
+.section-heading h2{
+  font-size:clamp(1.45rem,3vw,2rem);
+  line-height:1.25;
+  letter-spacing:-.7px;
+  font-weight:900;
+  text-wrap:balance;
+}
+.section-heading p{
+  max-width:600px;
+  margin:9px auto 0;
+  color:var(--muted);
+  font-size:.92rem;
+  text-wrap:pretty;
+}
+
+/* ============================================================
+   FEATURES
+   ============================================================ */
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+}
+
+.feature{
+  padding:22px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+  box-shadow:var(--shadow);
+  transition:transform .2s var(--ease), border-color .2s, box-shadow .2s;
+}
+.feature:hover{
+  transform:translateY(-3px);
+  border-color:#B8D7F5;
+  box-shadow:0 12px 30px rgba(18,48,85,.10);
+}
+
+.feature-icon{
+  display:grid;
+  place-items:center;
+  width:46px;
+  height:46px;
+  margin-bottom:15px;
+  border-radius:13px;
+  color:var(--blue);
+  background:var(--blue-light);
+}
+.feature-icon .icon{font-size:1.15rem}
+
+.feature h3{margin-bottom:6px;font-size:.98rem;font-weight:850}
+.feature p{color:var(--muted);font-size:.83rem;line-height:1.65}
+
+/* ============================================================
+   EXAMS
+   ============================================================ */
+.exams{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+}
+
+.exam{
+  padding:21px 10px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+  box-shadow:var(--shadow);
+  text-align:center;
+  transition:transform .2s var(--ease), border-color .2s;
+}
+.exam:hover{transform:translateY(-3px);border-color:#B8D7F5}
+.exam .icon{
+  font-size:1.45rem;
+  margin:0 auto 10px;
+  color:var(--accent);
+}
+.exam h3{color:var(--blue);font-size:1.05rem;font-weight:900}
+.exam p{margin-top:4px;color:var(--muted);font-size:.76rem}
+
+/* ============================================================
+   STEPS
+   ============================================================ */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.step{
+  padding:20px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+}
+
+.step-number{
+  display:grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  margin-bottom:13px;
+  border-radius:11px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:900;
+}
+
+.step h3{margin-bottom:6px;font-size:.92rem;font-weight:850}
+.step p{color:var(--muted);font-size:.81rem}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.final-cta{
+  margin-top:58px;
+  padding:38px 22px;
+  border:1px solid #CFE1F5;
+  border-radius:23px;
+  background:linear-gradient(135deg,#EAF3FF,#FFFFFF);
+  text-align:center;
+}
+
+.final-icon{
+  display:grid;
+  place-items:center;
+  width:55px;
+  height:55px;
+  margin:0 auto 15px;
+  border-radius:17px;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  color:#fff;
+}
+.final-icon .icon{font-size:1.45rem}
+
+.final-cta h2{
+  font-size:clamp(1.4rem,4vw,2rem);
+  line-height:1.3;
+  font-weight:900;
+  text-wrap:balance;
+}
+.final-cta p{
+  max-width:570px;
+  margin:10px auto 0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+.final-cta .download-button{
+  margin-top:22px;
+  border-color:var(--blue);
+  background:var(--blue);
+  color:#fff;
+}
+.final-cta .download-button:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  margin-top:46px;
+  padding:25px 0 110px;
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+.footer-brand{color:var(--blue);font-size:1.1rem;font-weight:900}
+.footer p{margin-top:5px;color:var(--muted);font-size:.82rem}
+.footer .copyright{margin-top:15px;font-size:.75rem}
+
+/* ============================================================
+   FLOATING DOWNLOAD BAR
+   ============================================================ */
+.floating-bar{
+  position:fixed;
+  z-index:150;
+  right:0;
+  bottom:0;
+  left:0;
+  padding:11px 15px calc(11px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--border);
+  background:rgba(255,255,255,.97);
+  box-shadow:0 -5px 22px rgba(20,45,80,.09);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transform:translateY(115%);
+  visibility:hidden;
+  transition:transform .28s var(--ease), visibility .28s;
+}
+.floating-bar.show{transform:translateY(0);visibility:visible}
+
+.floating-inner{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  width:min(600px,100%);
+  margin-inline:auto;
+}
+
+.floating-logo{
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  color:#fff;
+  font-size:1.2rem;
+  font-weight:900;
+}
+
+.floating-text{flex:1;min-width:0}
+.floating-text strong{display:block;font-size:.86rem;line-height:1.35}
+.floating-text span{display:block;color:var(--muted);font-size:.72rem;line-height:1.35}
+
+.floating-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:44px;
+  padding:10px 16px;
+  border-radius:10px;
+  background:var(--blue);
+  color:#fff;
+  text-decoration:none;
+  font-size:.82rem;
+  font-weight:850;
+  white-space:nowrap;
+  transition:background .2s;
+}
+.floating-button .icon{font-size:1rem}
+.floating-button:hover{background:var(--blue-dark)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:760px){
+  .features{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .exams{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media (max-width:480px){
+  .container{width:calc(100% - 26px)}
+
+  .header-inner{min-height:62px}
+  .brand-icon{width:37px;height:37px;font-size:20px}
+  .brand-name{font-size:1.08rem}
+  .header-label{padding:6px 9px;font-size:.67rem}
+
+  .hero{margin-top:14px;padding:37px 16px 35px;border-radius:20px}
+  .hero h1{font-size:2.05rem;letter-spacing:-1px}
+  .hero-description{font-size:.9rem}
+
+  .download-action{margin-top:18px}
+  .action-message{font-size:.82rem}
+  .action-arrow .icon{font-size:1.5rem}
+
+  .download-button{width:100%;padding:15px 13px;font-size:.91rem}
+  .hero-note{font-size:.71rem}
+
+  .quick-benefits{gap:8px}
+  .benefit{padding:15px 6px}
+  .benefit h3{font-size:.78rem}
+  .benefit p{font-size:.69rem}
+
+  .section{margin-top:44px}
+
+  .features{gap:10px}
+  .feature{padding:16px 13px}
+  .feature h3{font-size:.87rem}
+  .feature p{font-size:.78rem}
+
+  .steps{gap:10px}
+  .step{padding:15px 12px}
+  .step h3{font-size:.84rem}
+  .step p{font-size:.77rem}
+
+  .final-cta{margin-top:44px;padding:29px 17px}
+
+  .floating-inner{gap:8px}
+  .floating-logo{width:36px;height:36px;font-size:1.05rem}
+  .floating-text strong{font-size:.79rem}
+  .floating-text span{font-size:.66rem}
+  .floating-button{padding:10px 12px;font-size:.76rem}
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .js .reveal{opacity:1 !important;transform:none !important}
+  .download-action,.floating-bar{transition:none !important}
+}
 </style>
 </head>
+
 <body>
 
-<div class="app-header-wrapper">
-  <header class="app-header">
-    <div class="brand-name">PREPZAM</div>
-    <div class="header-badge">Academic Portal</div>
-  </header>
-</div>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-<div class="main-container">
+<!-- ============================================================
+     ICON SPRITE  (replaces Font Awesome CDN — no extra requests)
+     ============================================================ -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-book-open" viewBox="0 0 24 24">
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+  </symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24">
+    <path d="M22 9.5 12 4.5 2 9.5l10 5 10-5z"/>
+    <path d="M6 12v5.2c0 1.4 2.7 2.8 6 2.8s6-1.4 6-2.8V12"/>
+  </symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="m8.4 12.4 2.4 2.4 4.8-5"/>
+  </symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24">
+    <path d="M12 5a3 3 0 1 0-6 .1 4 4 0 0 0-2.5 5.8A4 4 0 0 0 4 17.5 4 4 0 1 0 12 18Z"/>
+    <path d="M12 5a3 3 0 1 1 6 .1 4 4 0 0 1 2.5 5.8A4 4 0 0 1 20 17.5 4 4 0 1 1 12 18Z"/>
+  </symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24">
+    <path d="m12 3 1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>
+    <path d="m18.5 15.5.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/>
+  </symbol>
+  <symbol id="i-file-lines" viewBox="0 0 24 24">
+    <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/>
+    <path d="M14 2v5h5"/>
+    <path d="M9 13h6M9 17h4"/>
+  </symbol>
+  <symbol id="i-smartphone" viewBox="0 0 24 24">
+    <rect x="6" y="2" width="12" height="20" rx="2.6"/>
+    <path d="M11 18.5h2"/>
+  </symbol>
+  <symbol id="i-target" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="5"/>
+    <circle cx="12" cy="12" r="1.4"/>
+  </symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24">
+    <path d="M9.5 18h5M10.5 21h3"/>
+    <path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.2 1.3 2h4.6c.2-.8.7-1.5 1.3-2A6 6 0 0 0 12 3Z"/>
+  </symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24">
+    <path d="m12 2.5 9 4.8-9 4.8-9-4.8z"/>
+    <path d="m3 12.2 9 4.8 9-4.8"/>
+    <path d="m3 16.9 9 4.8 9-4.8"/>
+  </symbol>
+  <symbol id="i-book" viewBox="0 0 24 24">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+  </symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24">
+    <path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
+    <path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/>
+  </symbol>
+  <symbol id="i-award" viewBox="0 0 24 24">
+    <circle cx="12" cy="8.5" r="5.5"/>
+    <path d="m15.5 13.2 1.5 8.3-5-3-5 3 1.5-8.3"/>
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24">
+    <path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.9.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/>
+    <path d="m12 15-3-3a22 22 0 0 1 2-4 12.9 12.9 0 0 1 11-6c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2z"/>
+    <path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0"/>
+    <path d="M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/>
+  </symbol>
+  <symbol id="i-shield-check" viewBox="0 0 24 24">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <path d="m9 12 2 2 4-4"/>
+  </symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24">
+    <path d="M12 5v14"/>
+    <path d="m19 12-7 7-7-7"/>
+  </symbol>
+  <symbol id="i-google-play" viewBox="0 0 24 24">
+    <path d="M3.609 1.814 13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893 2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198 2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.197 12l2.5-2.491zM5.864 2.658 16.802 8.99l-2.302 2.302-8.636-8.634z"/>
+  </symbol>
+</svg>
 
-  <div class="redirect-notice" id="redirectNotice">
-    <div class="spinner" id="spinner"></div>
-    <p id="noticeText">Redirecting you to Google Play</p>
-    <strong id="noticeSub">Prepzam – Download the app</strong>
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" aria-label="Prepzam — back to top">
+      <span class="brand-icon" aria-hidden="true">P</span>
+      <span class="brand-name">PREPZAM</span>
+    </a>
+    <span class="header-label">
+      <svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg>
+      Academic Portal
+    </span>
+  </div>
+</header>
 
-    <!-- Always-available fallback button (hidden until needed) -->
-    <a id="fallbackCta" class="download-btn" style="display:none;"
+<main class="container" id="main">
+
+  <!-- ==========================================================
+       HERO
+       ========================================================== -->
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div class="hero-content">
+      <p class="eyebrow">
+        <svg class="icon" aria-hidden="true"><use href="#i-book-open"></use></svg>
+        Your Learning Companion
+      </p>
+
+      <h1 id="hero-title">Study Smarter.<br>Achieve More.</h1>
+
+      <p class="hero-description">
+        Class notes, revision questions, past examination papers and AI-assisted
+        solutions — everything you need to prepare smarter with Prepzam.
+      </p>
+
+      <!-- Download hint — now permanently inside the blue hero -->
+      <div class="download-action" id="downloadAction">
+        <p class="action-message">
+          <svg class="icon icon--brand" aria-hidden="true"><use href="#i-google-play"></use></svg>
+          <span>Tap the button below to download Prepzam</span>
+        </p>
+        <div class="action-arrow" aria-hidden="true">
+          <svg class="icon"><use href="#i-arrow-down"></use></svg>
+        </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <a class="download-button"
+         href="https://play.google.com/store/apps/details?id=akoonax.aplicxyz"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Download Prepzam on Google Play (opens in a new tab)">
+        <svg class="icon icon--brand" aria-hidden="true"><use href="#i-google-play"></use></svg>
+        Click Here to Download
+      </a>
+
+      <p class="hero-note">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"></use></svg>
+        Safe download through Google Play
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       QUICK BENEFITS
+       ========================================================== -->
+  <section class="quick-benefits reveal" aria-label="Prepzam benefits">
+    <article class="benefit">
+      <svg class="icon" aria-hidden="true"><use href="#i-book-open"></use></svg>
+      <h3>Study Resources</h3>
+      <p>Notes and learning materials</p>
+    </article>
+    <article class="benefit">
+      <svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+      <h3>Exam Practice</h3>
+      <p>Questions and past papers</p>
+    </article>
+    <article class="benefit">
+      <svg class="icon" aria-hidden="true"><use href="#i-brain"></use></svg>
+      <h3>AI Assistance</h3>
+      <p>Help with challenging questions</p>
+    </article>
+  </section>
+
+  <!-- ==========================================================
+       FEATURES
+       ========================================================== -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="section-heading reveal">
+      <h2 id="features-title">Everything You Need to Study Better</h2>
+      <p>Discover practical learning tools designed to support your revision and examination preparation.</p>
+    </div>
+
+    <div class="features reveal">
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-book-open"></use></svg></div>
+        <h3>Class Notes</h3>
+        <p>Access organised notes to help you understand lessons and revise important concepts.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-sparkles"></use></svg></div>
+        <h3>Revision Questions</h3>
+        <p>Practise with questions generated from your notes to strengthen your understanding.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-file-lines"></use></svg></div>
+        <h3>Past Examination Papers</h3>
+        <p>Explore available past papers and become more familiar with examination questions.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-brain"></use></svg></div>
+        <h3>AI-Assisted Solutions</h3>
+        <p>Get help working through difficult questions and understanding possible solutions.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-smartphone"></use></svg></div>
+        <h3>Learn on Your Phone</h3>
+        <p>Access available learning resources conveniently from your Android device.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"></use></svg></div>
+        <h3>Focused Preparation</h3>
+        <p>Bring your study resources together and make your revision sessions more organised.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-lightbulb"></use></svg></div>
+        <h3>Understand Difficult Topics</h3>
+        <p>Use available learning materials and AI assistance to explore concepts you find challenging.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg></div>
+        <h3>Multiple Study Resources</h3>
+        <p>Explore different kinds of materials to support your academic preparation.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg></div>
+        <h3>Exam-Focused Learning</h3>
+        <p>Prepare with resources relevant to your courses and examination goals.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       EXAMS
+       ========================================================== -->
+  <section class="section" id="exams" aria-labelledby="exams-title">
+    <div class="section-heading reveal">
+      <h2 id="exams-title">Prepare for Your Examinations</h2>
+      <p>Find learning resources relevant to your academic journey.</p>
+    </div>
+
+    <div class="exams reveal">
+      <article class="exam">
+        <svg class="icon" aria-hidden="true"><use href="#i-graduation"></use></svg>
+        <h3>GCE</h3>
+        <p>O Level &amp; A Level</p>
+      </article>
+      <article class="exam">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>
+        <h3>WAEC</h3>
+        <p>West African examinations</p>
+      </article>
+      <article class="exam">
+        <svg class="icon" aria-hidden="true"><use href="#i-edit"></use></svg>
+        <h3>JAMB</h3>
+        <p>UTME preparation</p>
+      </article>
+      <article class="exam">
+        <svg class="icon" aria-hidden="true"><use href="#i-award"></use></svg>
+        <h3>HND</h3>
+        <p>Higher National Diploma</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       GETTING STARTED
+       ========================================================== -->
+  <section class="section" id="getting-started" aria-labelledby="steps-title">
+    <div class="section-heading reveal">
+      <h2 id="steps-title">Start Learning in Four Simple Steps</h2>
+      <p>Getting started with Prepzam is straightforward.</p>
+    </div>
+
+    <div class="steps reveal">
+      <article class="step">
+        <div class="step-number" aria-hidden="true">1</div>
+        <h3>Tap Download</h3>
+        <p>Click the download button on this page.</p>
+      </article>
+      <article class="step">
+        <div class="step-number" aria-hidden="true">2</div>
+        <h3>Open Google Play</h3>
+        <p>Your device opens the Prepzam app listing.</p>
+      </article>
+      <article class="step">
+        <div class="step-number" aria-hidden="true">3</div>
+        <h3>Install Prepzam</h3>
+        <p>Tap Install and wait for installation to finish.</p>
+      </article>
+      <article class="step">
+        <div class="step-number" aria-hidden="true">4</div>
+        <h3>Start Exploring</h3>
+        <p>Open the app and explore the available study resources.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FINAL CTA
+       ========================================================== -->
+  <section class="final-cta reveal" aria-labelledby="cta-title">
+    <div class="final-icon"><svg class="icon" aria-hidden="true"><use href="#i-rocket"></use></svg></div>
+    <h2 id="cta-title">Your Next Study Session Starts Here.</h2>
+    <p>
+      Take the next step towards better exam preparation. Get Prepzam on your
+      Android device and explore the available learning tools.
+    </p>
+    <a class="download-button"
        href="https://play.google.com/store/apps/details?id=akoonax.aplicxyz"
-       target="_blank" rel="noopener">
-      <i class="fab fa-google-play"></i> Open Google Play
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Download Prepzam on Google Play (opens in a new tab)">
+      <svg class="icon icon--brand" aria-hidden="true"><use href="#i-google-play"></use></svg>
+      Download Prepzam Now
+    </a>
+  </section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">PREPZAM</div>
+    <p>Study smarter. Prepare better. Keep progressing.</p>
+    <p class="copyright">
+      &copy; <span id="currentYear">2026</span> Prepzam. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     FLOATING DOWNLOAD BAR
+     ============================================================ -->
+<aside class="floating-bar" id="floatingBar" aria-label="Download Prepzam">
+  <div class="floating-inner">
+    <div class="floating-logo" aria-hidden="true">P</div>
+    <div class="floating-text">
+      <strong>Get Prepzam</strong>
+      <span>Start your exam preparation</span>
+    </div>
+    <a class="floating-button"
+       href="https://play.google.com/store/apps/details?id=akoonax.aplicxyz"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Download Prepzam on Google Play (opens in a new tab)">
+      <svg class="icon icon--brand" aria-hidden="true"><use href="#i-google-play"></use></svg>
+      Download
     </a>
   </div>
+</aside>
 
-  <div class="hero-card">
-    <h1>Smart Exam Preparation</h1>
-    <p>Class notes, revision questions, past papers and AI-powered solutions — all in one place.</p>
-    <a class="download-btn" href="https://play.google.com/store/apps/details?id=akoonax.aplicxyz"
-       target="_blank" rel="noopener">
-      <i class="fab fa-google-play"></i> Download on Google Play
-    </a>
-  </div>
-
-  <div class="section-label">What You Get</div>
-  <div class="feature-list">
-    <div class="feature-item">
-      <div class="feature-icon"><i class="fas fa-book-open"></i></div>
-      <div class="feature-text"><strong>Class Notes</strong><span>Clear, organised notes for every subject</span></div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon"><i class="fas fa-rotate"></i></div>
-      <div class="feature-text"><strong>Revision Questions</strong><span>Practice questions generated from your notes</span></div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon"><i class="fas fa-file-lines"></i></div>
-      <div class="feature-text"><strong>Past Examination Questions</strong><span>Real past papers to prepare effectively</span></div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon"><i class="fas fa-brain"></i></div>
-      <div class="feature-text"><strong>AI-Generated Solutions</strong><span>Step-by-step answers when you need them</span></div>
-    </div>
-  </div>
-
-  <div class="section-label">Exams Covered</div>
-  <div class="exams-grid">
-    <div class="exam-chip"><strong>GCE</strong><span>O Level &amp; A Level</span></div>
-    <div class="exam-chip"><strong>WAEC</strong><span>West Africa</span></div>
-    <div class="exam-chip"><strong>JAMB</strong><span>UTME Prep</span></div>
-    <div class="exam-chip"><strong>HND</strong><span>Higher Diploma</span></div>
-  </div>
-
-  <div class="secondary-cta">
-    <a href="https://play.google.com/store/apps/details?id=akoonax.aplicxyz" target="_blank" rel="noopener">
-      Not redirected? Tap here to download
-    </a>
-  </div>
-
-</div>
-
-<div class="app-footer">
-  <p>&copy; 2026 Prepzam &nbsp;·&nbsp; <a href="mailto:prepzam@gmail.com">prepzam@gmail.com</a> &nbsp;·&nbsp; +237 652 170 978</p>
-</div>
+<!-- ============================================================
+     STRUCTURED DATA
+     ============================================================ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Prepzam",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Android",
+  "description": "Study smarter with Prepzam: class notes, revision questions, past examination papers and AI-assisted solutions.",
+  "downloadUrl": "https://play.google.com/store/apps/details?id=akoonax.aplicxyz"
+}
+</script>
 
 <script>
 (function () {
-  var PLAY_ID   = 'akoonax.aplicxyz';
-  var PLAY_URL  = 'https://play.google.com/store/apps/details?id=' + PLAY_ID;
-  var MARKET    = 'market://details?id=' + PLAY_ID;
+  "use strict";
 
-  var inIframe  = window.top !== window.self;
-  var isAndroid = /Android/i.test(navigator.userAgent);
+  /* ---------- Copyright year ---------- */
+  var yearEl = document.getElementById("currentYear");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  var spinner   = document.getElementById('spinner');
-  var noticeTxt = document.getElementById('noticeText');
-  var noticeSub = document.getElementById('noticeSub');
-  var fallback  = document.getElementById('fallbackCta');
+  /* ---------- Floating bar visibility ---------- */
+  var floatingBar = document.getElementById("floatingBar");
+  var hero        = document.getElementById("home");
+  var finalCta    = document.querySelector(".final-cta");
+  var state       = { hero: true, cta: false };
 
-  var done = false;
-
-  function showFallback() {
-    if (done) return;
-    spinner.style.display = 'none';
-    noticeTxt.textContent = 'Tap below to continue';
-    noticeSub.textContent = 'Opens Google Play in a new tab';
-    fallback.style.display = 'inline-flex';
+  function syncFloatingBar() {
+    if (!floatingBar) return;
+    floatingBar.classList.toggle("show", !state.hero && !state.cta);
   }
 
-  function redirect() {
-    if (done) return;
+  if (floatingBar && hero && "IntersectionObserver" in window) {
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { state.hero = entry.isIntersecting; });
+      syncFloatingBar();
+    }, { threshold: 0 });
 
-    // ---------- Case 1: plain page (not embedded) ----------
-    if (!inIframe) {
-      done = true;
-      if (isAndroid) {
-        // Try the Play Store app, then fall back to the web URL
-        window.location.href = MARKET;
-        setTimeout(function () { window.location.href = PLAY_URL; }, 1200);
-      } else {
-        window.location.href = PLAY_URL;
-      }
-      return;
-    }
+    var ctaObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { state.cta = entry.isIntersecting; });
+      syncFloatingBar();
+    }, { threshold: 0.35 });
 
-    // ---------- Case 2: inside Google Sites iframe ----------
-    // Attempt 1: break out to the top window.
-    try {
-      window.top.location.href = PLAY_URL;
-      // If the browser allowed it, the page starts unloading.
-      // If not, it throws or silently fails; the watchdog below catches it.
-      done = true;
-      return;
-    } catch (e) { /* cross-origin / user-gesture block */ }
-
-    // Attempt 2: open a new tab.
-    try {
-      var w = window.open(PLAY_URL, '_blank');
-      if (w && !w.closed) { done = true; return; }
-    } catch (e) { /* popup blocked */ }
-
-    // Attempt 3: at minimum, try to navigate the iframe itself —
-    // Google Play will still refuse, but the user is no worse off.
-    try { window.location.href = PLAY_URL; } catch (e) {}
-
-    // If we're still here, show the tap button.
-    showFallback();
+    heroObserver.observe(hero);
+    if (finalCta) ctaObserver.observe(finalCta);
+  } else if (floatingBar) {
+    /* Fallback for very old browsers */
+    window.addEventListener("scroll", function () {
+      var heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+      floatingBar.classList.toggle("show", heroBottom < 0);
+    }, { passive: true });
   }
 
-  // Fire the redirect as early as possible
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', redirect, { once: true });
+  /* ---------- Reveal on scroll ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if (!reveals.length) return;
+
+  if ("IntersectionObserver" in window) {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+
+    reveals.forEach(function (el) { revealObserver.observe(el); });
   } else {
-    redirect();
-  }
-
-  // Second attempt once the full page (fonts, CSS) is loaded
-  window.addEventListener('load', function () {
-    setTimeout(redirect, 50);
-  }, { once: true });
-
-  // Watchdog: if we're still on the page after 1.5 s, reveal the button
-  if (inIframe) {
-    setTimeout(function () {
-      if (!document.hidden) showFallback();
-    }, 1500);
+    reveals.forEach(function (el) { el.classList.add("is-visible"); });
   }
 })();
 </script>
+
 </body>
 </html>
